@@ -1,0 +1,5 @@
+rootProject.name = 'pandasaza'
+include 'pandasaza-base'
+include 'pandasaza-login'
+
+
