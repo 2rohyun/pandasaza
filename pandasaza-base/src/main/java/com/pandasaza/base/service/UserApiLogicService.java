@@ -2,8 +2,6 @@ package com.pandasaza.base.service;
 
 import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.entity.User;
-import com.pandasaza.base.model.enumclass.UserRole;
-import com.pandasaza.base.model.enumclass.UserStatus;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.model.network.response.SellerApiResponse;
@@ -16,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

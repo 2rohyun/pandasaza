@@ -1,10 +1,8 @@
 package com.pandasaza.base.model.entity;
 
-import com.pandasaza.base.model.enumclass.UserRole;
 import com.pandasaza.base.model.enumclass.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.apache.ibatis.annotations.One;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor

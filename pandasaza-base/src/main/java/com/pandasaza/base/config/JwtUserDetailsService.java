@@ -26,36 +26,4 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userRepository.findByAccount(account)
                 .orElseThrow(() -> new UsernameNotFoundException((account)));
     }
-
-    @Transactional
-    //TODO ( erase pandasaza-base sign up logic, handling unactive user logic into pandasaza-login module
-    public Long save(UserDto infoDto) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        infoDto.setPassword(encoder.encode(infoDto.getPassword()));
-
-        return userRepository.save(User.builder()
-                .account(infoDto.getAccount())
-                .password(infoDto.getPassword())
-                .email(infoDto.getEmail())
-                .nation(infoDto.getNation())
-                .registeredAt(LocalDateTime.now())
-                .status(UserStatus.REGISTERED)
-                .authMethods(
-                        infoDto.getAuthMethods()
-                                .stream()
-                                .map(String::valueOf)
-                                .collect(Collectors.joining(","))
-                )
-                .authHistory(
-                        infoDto.getAuthHistory()
-                                .stream()
-                                .map(String::valueOf)
-                                .collect(Collectors.joining(","))
-                )
-                .phoneNumber(infoDto.getPhoneNumber())
-                .university(infoDto.getUniversity())
-                .lastLoginAt(infoDto.getLastLoginAt())
-                .profileIcon(infoDto.getProfileIcon())
-                .auth("ROLE_USER").build()).getUserId();
-    }
 }
