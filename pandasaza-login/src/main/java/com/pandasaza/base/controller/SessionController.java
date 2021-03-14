@@ -1,45 +1,51 @@
 package com.pandasaza.base.controller;
 
-import com.pandasaza.base.model.entity.User;
-import com.pandasaza.base.model.network.request.SessionRequest;
-import com.pandasaza.base.model.network.response.SessionResponse;
-import com.pandasaza.base.model.service.UserLoginService;
-import com.pandasaza.base.service.UserApiLogicService;
+import com.pandasaza.base.config.JwtUserDetailsService;
+import com.pandasaza.base.model.network.request.JwtRequest;
+import com.pandasaza.base.model.network.response.JwtResponse;
 import com.pandasaza.base.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class SessionController {
 
-    private final UserLoginService userLoginService;
+    private final AuthenticationManager authenticationManager;
 
     private final JwtUtil jwtUtil;
 
+    private final JwtUserDetailsService userDetailsService;
+
     @PostMapping("/session")
-    public ResponseEntity<SessionResponse> create(
-            @RequestBody SessionRequest resource
-    ) throws URISyntaxException {
-        String account = resource.getAccount();
-        String password = resource.getPassword();
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        User user = userLoginService.authenticate(account, password);
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        String accessToken = jwtUtil.createToken(user.getUserId(), user.getAccount());
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
 
-        String url = "/session";
+        final String token = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.created(new URI(url)).body(
-                SessionResponse.builder()
-                .accessToken(accessToken)
-                .build()
-        );
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 }

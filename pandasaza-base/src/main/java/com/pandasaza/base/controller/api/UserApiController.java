@@ -2,9 +2,7 @@ package com.pandasaza.base.controller.api;
 
 import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.network.Header;
-import com.pandasaza.base.model.network.request.SignInApiRequest;
 import com.pandasaza.base.model.network.request.UserApiRequest;
-import com.pandasaza.base.model.network.response.OrderDetailApiResponse;
 import com.pandasaza.base.model.network.response.UserApiResponse;
 import com.pandasaza.base.service.UserApiLogicService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController implements CrudInterface<UserApiRequest, UserApiResponse> {
 
     private final UserApiLogicService userApiLogicService;
-
-    @PostMapping("signIn")
-    public Header<UserApiResponse> signIn(@RequestBody Header<SignInApiRequest> userApiRequest){
-        return userApiLogicService.signIn(userApiRequest);
-    }
 
     @Override
     @PostMapping("")

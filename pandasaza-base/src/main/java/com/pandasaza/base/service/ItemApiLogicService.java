@@ -13,7 +13,9 @@ import com.pandasaza.base.model.network.response.SellerApiResponse;
 import com.pandasaza.base.model.network.response.UserApiResponse;
 import com.pandasaza.base.model.service.ThumbnailItemService;
 import com.pandasaza.base.repository.*;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,8 +42,8 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     private final DibRepository dibRepository;
 
-    @Override
-    public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
+    public Header<ItemApiResponse> create(Header<ItemApiRequest> request){
+
         ItemApiRequest itemApiRequest = request.getData();
 
         Item item = Item.builder()
@@ -69,6 +71,8 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
         return response(newItem);
     }
+
+
 
     @Override
     public Header<ItemApiResponse> read(Long id) {

@@ -32,7 +32,7 @@ public class UnactiveUserRepositoryTest extends BaseApplicationTests {
                 unactiveUser.setUuId(u.getUserId());
                 unactiveUser.setAccount(u.getAccount());
                 unactiveUser.setEmail(u.getEmail());
-                unactiveUser.setIsCertified(u.getIsCertified());
+                //unactiveUser.setIsCertified(u.getIsCertified());
                 unactiveUser.setNation(u.getNation());
                 unactiveUser.setPassword(u.getPassword());
                 unactiveUser.setLastLoginAt(u.getLastLoginAt());
