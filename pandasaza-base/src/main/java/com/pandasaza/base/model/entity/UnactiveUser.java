@@ -22,29 +22,40 @@ public class UnactiveUser {
     @Id
     private Long uuId;
 
+    @Column
     private String account;
 
+    @Column
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @Column
     private String email;
 
+    @Column
     private String phoneNumber;
 
+    @Column
     private LocalDateTime registeredAt;
 
+    @Column
     private String nation;
 
+    @Column
     private LocalDateTime lastLoginAt;
 
+    @Column
     private String university;
 
+    @Column
     private String authMethods;
 
+    @Column
     private String authHistory;
 
+    @Column
     private String profileIcon;
 
     @ManyToOne

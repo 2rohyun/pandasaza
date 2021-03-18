@@ -20,8 +20,10 @@ public class Category {
     @Id
     private Long categoryId;
 
+    @Column
     private String type;
 
+    @Column
     private int groupCode;
 
     //Category 1 : N Item

@@ -23,23 +23,31 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
+    @Column
     private String status;
 
+    @Column
     private String name;
 
+    @Column
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column
     private BigDecimal price;
 
+    @Column
     private LocalDateTime registeredAt;
 
+    @Column
     private String itemImagesUrl;
 
+    @Column
     private Integer cntLike;
 
+    @Column
     private Integer cntShow;
 
     //Item N : 1 User

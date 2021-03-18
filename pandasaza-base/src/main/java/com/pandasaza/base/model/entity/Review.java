@@ -21,13 +21,16 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
+    @Column
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column
     private Integer score;
 
+    @Column
     private LocalDateTime registeredAt;
 
     @ManyToOne

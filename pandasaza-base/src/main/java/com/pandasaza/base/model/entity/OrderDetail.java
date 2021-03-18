@@ -21,6 +21,7 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
+    @Column
     private String status;
 
     @ManyToOne

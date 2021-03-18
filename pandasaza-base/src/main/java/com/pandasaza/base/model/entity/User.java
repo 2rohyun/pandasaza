@@ -26,31 +26,43 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column
     private String account;
 
+    @Column
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @Column
     private String email;
 
+    @Column
     private String phoneNumber;
 
+    @Column
     private LocalDateTime registeredAt;
 
+    @Column
     private String nation;
 
+    @Column
     private LocalDateTime lastLoginAt;
 
+    @Column
     private String university;
 
+    @Column
     private String profileIcon;
 
+    @Column
     private String authMethods;
 
+    @Column
     private String authHistory;
 
+    @Column
     private String auth;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

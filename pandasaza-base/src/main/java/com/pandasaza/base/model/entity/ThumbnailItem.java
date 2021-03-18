@@ -24,18 +24,25 @@ public class ThumbnailItem {
     @ManyToOne
     private Item item;
 
+    @Column
     private String status;
 
+    @Column
     private String name;
 
+    @Column
     private BigDecimal price;
 
+    @Column
     private LocalDateTime registeredAt;
 
+    @Column
     private String thumbnailImageUrl;
 
+    @Column
     private Integer cntLike;
 
+    @Column
     private Integer cntShow;
 
 }
