@@ -26,16 +26,16 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String account;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
     @Column
@@ -44,7 +44,7 @@ public class User implements UserDetails{
     @Column
     private LocalDateTime registeredAt;
 
-    @Column
+    @Column(nullable = false)
     private String nation;
 
     @Column

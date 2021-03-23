@@ -15,6 +15,8 @@ import java.io.Serializable;
 @Builder
 @Accessors(chain = true)
 @ToString(exclude = {"orderDetail"})
+
+//TODO ( after implementing chatting server )
 public class Chatting {
 
     @Id

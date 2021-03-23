@@ -18,12 +18,13 @@ import java.util.List;
 public class Category {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @Column
+    @Column(nullable = false)
     private String type;
 
-    @Column
+    @Column(nullable = false)
     private int groupCode;
 
     //Category 1 : N Item

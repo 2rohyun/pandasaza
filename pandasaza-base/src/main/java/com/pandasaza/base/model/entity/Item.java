@@ -23,19 +23,19 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-    @Column
+    @Column(nullable = false)
     private String status;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Column

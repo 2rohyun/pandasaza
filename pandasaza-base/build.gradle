@@ -44,13 +44,16 @@ dependencies {
     compile group: "org.springframework.security", name: "spring-security-oauth2-resource-server", version: '5.3.8.RELEASE'
 
 }
-jar {
-    enabled = true
+bootJar {
+    jar.enabled = true // 빌드시 jar 을 실행
 }
 
-bootJar {
-    enabled = false
+jar {
+    manifest { // 빌드시 Main-Class 설정
+        attributes 'Main-Class': 'com.pandasaza.base.BaseApplication'
+    }
 }
+
 
 test {
     useJUnitPlatform()

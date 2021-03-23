@@ -20,18 +20,19 @@ import java.time.LocalDateTime;
 public class Admin {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adminId;
 
-    @Column
+    @Column(nullable = false, length = 20)
     private String account;
 
-    @Column
+    @Column(nullable = false, length = 1000)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private String status;
 
-    @Column
+    @Column(nullable = false)
     private String role;
 
     @Column

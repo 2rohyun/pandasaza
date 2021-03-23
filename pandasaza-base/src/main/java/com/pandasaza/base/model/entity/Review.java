@@ -21,13 +21,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private Integer score;
 
     @Column
