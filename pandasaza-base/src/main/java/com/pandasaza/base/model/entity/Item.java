@@ -41,7 +41,7 @@ public class Item {
     @Column
     private LocalDateTime registeredAt;
 
-    @Column
+    @Column(length = 3000)
     private String itemImagesUrl;
 
     @Column

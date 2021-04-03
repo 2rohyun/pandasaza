@@ -4,6 +4,8 @@ import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.model.network.response.UserApiResponse;
+import com.pandasaza.base.model.network.response.UserDataApiResponse;
+import com.pandasaza.base.model.network.response.UserProfileApiResponse;
 import com.pandasaza.base.service.UserApiLogicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,20 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
         log.info("read id : {}", id);
         return userApiLogicService.read(id);
     }
+
+    @GetMapping("/data/{id}")
+    public Header<UserDataApiResponse> read_user_data(@PathVariable Long id) {
+        log.info("read id : {}",id);
+        return userApiLogicService.readUserData(id);
+    }
+
+    @GetMapping("/profile/{id}")
+    public Header<UserProfileApiResponse> read_user_profile(@PathVariable Long id) {
+        log.info("read id : {}",id);
+        return userApiLogicService.readUserProfile(id);
+    }
+
+
 
     @Override
     @PutMapping("")

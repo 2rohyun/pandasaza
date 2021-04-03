@@ -6,7 +6,10 @@ import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.model.network.response.SellerApiResponse;
 import com.pandasaza.base.model.network.response.UserApiResponse;
+import com.pandasaza.base.model.network.response.UserDataApiResponse;
+import com.pandasaza.base.model.network.response.UserProfileApiResponse;
 import com.pandasaza.base.model.service.UnactiveUserService;
+import com.pandasaza.base.model.service.UserItemService;
 import com.pandasaza.base.model.service.UserReviewService;
 import com.pandasaza.base.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     private final PasswordEncoder passwordEncoder;
 
     private final UserReviewService userReviewService;
+
+    private final UserItemService userItemService;
 
     @Override
     // login 서버에서 handling
@@ -159,4 +164,68 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         return Header.OK(sellerApiResponse);
     }
 
+    public Header<UserProfileApiResponse> userProfileResponse(User user){
+
+        List<String> authMethodsList = Stream.of(
+                user.getAuthMethods()
+                        .split(",",-1))
+                .collect(Collectors.toList());
+
+        List<String> authHistoryList = Stream.of(
+                user.getAuthHistory()
+                        .split(",",-1))
+                .collect(Collectors.toList());
+
+        UserProfileApiResponse userProfileApiResponse = UserProfileApiResponse.builder()
+                .userId(user.getUserId())
+                .profileIcon(user.getProfileIcon())
+                .account(user.getAccount())
+                .lastLoginAt(user.getLastLoginAt()) // TODO ( 로그인 시 last_login_at 업데이트 )
+                .nation(user.getNation())
+                .score(userReviewService.getAvgScore(user))
+                .university(user.getUniversity())
+                .authMethods(authMethodsList) // TODO ( 동민이 어드민 페이지 완성되면 디테일하게 구현 )
+                .authHistory(authHistoryList)
+                .sellItems(userItemService.getUserSellItem(user.getUserId()))
+                .scoreHistory(userReviewService.getScoreHistory(user))
+                .reviewHistory(userReviewService.getReviewHistory(user))
+                .build();
+
+                return Header.OK(userProfileApiResponse);
+    }
+
+    public Header<UserDataApiResponse> userDataResponse(User user) {
+        UserDataApiResponse userDataApiResponse = UserDataApiResponse.builder()
+                .userId(user.getUserId())
+                .account(user.getAccount())
+                .email(user.getEmail())
+                .university(user.getUniversity())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+
+        return Header.OK(userDataApiResponse);
+    }
+
+    public Header<UserDataApiResponse> readUserData(Long id) {
+        //id -> repository 에서 getOne, getById 통해 가져온다.
+        Optional<User> optional = userRepository.findById(id);
+
+        //user -> userApiResponse return
+        return optional
+                .map(user -> userDataResponse(user)) //map : 형 변환 리턴
+                .orElseGet(
+                        () -> Header.ERROR("데이터 없음")
+                );
+    }
+
+    public Header<UserProfileApiResponse> readUserProfile(Long id) {
+        Optional<User> optional = userRepository.findById(id);
+
+        //user -> userApiResponse return
+        return optional
+                .map(user -> userProfileResponse(user)) //map : 형 변환 리턴
+                .orElseGet(
+                        () -> Header.ERROR("데이터 없음")
+                );
+    }
 }
