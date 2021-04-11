@@ -4,10 +4,7 @@ import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.entity.User;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.UserApiRequest;
-import com.pandasaza.base.model.network.response.SellerApiResponse;
-import com.pandasaza.base.model.network.response.UserApiResponse;
-import com.pandasaza.base.model.network.response.UserDataApiResponse;
-import com.pandasaza.base.model.network.response.UserProfileApiResponse;
+import com.pandasaza.base.model.network.response.*;
 import com.pandasaza.base.model.service.UnactiveUserService;
 import com.pandasaza.base.model.service.UserItemService;
 import com.pandasaza.base.model.service.UserReviewService;
@@ -18,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -162,6 +160,50 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .build();
 
         return Header.OK(sellerApiResponse);
+    }
+
+    public Header<List<SellerRefApiResponse>> sellerRefResponse(User user, Long id){
+        List<SellerRefApiResponse> sellerRefApiResponses = new ArrayList<>(Collections.emptyList());
+
+        if(user.getItemList().size() >= 5) {
+            user.getItemList().subList(0, 4).forEach(item -> {
+
+                if(!item.getItemId().equals(id)) {
+                    List<String> itemImagesURLList = Stream.of(
+                            item.getItemImagesUrl()
+                                    .split(",", -1))
+                            .collect(Collectors.toList());
+
+                    SellerRefApiResponse sellerRefApiResponse = SellerRefApiResponse.builder()
+                            .itemId(item.getItemId())
+                            .price(item.getPrice())
+                            .title(item.getTitle())
+                            .itemImageUrl(itemImagesURLList.get(0))
+                            .build();
+                    sellerRefApiResponses.add(sellerRefApiResponse);
+                }
+            });
+        } else {
+            user.getItemList().forEach(item -> {
+                if(!item.getItemId().equals(id)) {
+                    List<String> itemImagesURLList = Stream.of(
+                            item.getItemImagesUrl()
+                                    .split(",", -1))
+                            .collect(Collectors.toList());
+
+                    SellerRefApiResponse sellerRefApiResponse = SellerRefApiResponse.builder()
+                            .itemId(item.getItemId())
+                            .price(item.getPrice())
+                            .title(item.getTitle())
+                            .itemImageUrl(itemImagesURLList.get(0))
+                            .build();
+                    sellerRefApiResponses.add(sellerRefApiResponse);
+                }
+            });
+        }
+
+        return Header.OK(sellerRefApiResponses);
+
     }
 
     public Header<UserProfileApiResponse> userProfileResponse(User user){

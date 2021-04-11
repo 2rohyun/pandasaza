@@ -39,6 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         infoDto.setPassword(encoder.encode(infoDto.getPassword()));
 
+        //TODO ( unactive user 에 대한 핸들링 )
         //unactiveUserService.create();
 
         return userRepository.save(User.builder()

@@ -21,7 +21,7 @@ public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiR
 
     private final ItemApiLogicService itemApiLogicService;
 
-    @GetMapping("{id}/itemUserInfo")
+    @GetMapping("{id}/item-user-info")
     public Header<ItemUserInfoApiResponse> itemUserInfo(@PathVariable Long id){
         return itemApiLogicService.itemUserInfo(id);
     }

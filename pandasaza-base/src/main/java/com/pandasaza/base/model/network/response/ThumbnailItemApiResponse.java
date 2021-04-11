@@ -18,8 +18,6 @@ public class ThumbnailItemApiResponse {
 
     private Long tiId;
 
-    private Long itemItemId;
-
     private String status;
 
     private String name;
@@ -29,6 +27,8 @@ public class ThumbnailItemApiResponse {
     private LocalDateTime registeredAt;
 
     private String thumbnailImageUrl;
+
+    private Long categoryId;
 
     private String university;
 

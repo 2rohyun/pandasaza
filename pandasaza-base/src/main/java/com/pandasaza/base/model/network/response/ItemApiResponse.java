@@ -39,7 +39,11 @@ public class ItemApiResponse {
 
     private SellerApiResponse sellerApiResponse;
 
-    private Long categoryCategoryId;
+    private List<SellerRefApiResponse> sellerRefApiResponse;
+
+    private List<ItemRefApiResponse> itemRefApiResponse;
+
+    private Long categoryId;
 
     private String type;
 

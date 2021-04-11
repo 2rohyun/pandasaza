@@ -6,6 +6,7 @@ import com.pandasaza.base.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class UserItemService {
 
         Optional<User> user = userRepository.findById(id);
 
-        List<Long> ItemIdList = null;
+        List<Long> ItemIdList = new ArrayList<>(Collections.emptyList());
 
         for(Item i : user.get().getItemList()){
             ItemIdList = Collections.singletonList(i.getItemId());

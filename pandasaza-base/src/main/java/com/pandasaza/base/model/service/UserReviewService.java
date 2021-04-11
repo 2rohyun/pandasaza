@@ -8,6 +8,8 @@ import com.pandasaza.base.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,33 +39,51 @@ public class UserReviewService {
 
     public List<Integer> getScoreHistory(User user) {
 
-        List<Integer> scoreHistory = null;
+        List<Integer> scoreHistory = new ArrayList<>(Collections.emptyList());
 
         if(user.getItemList() != null) {
             for (Item i : user.getItemList()) {
-                for (OrderDetail j : i.getOrderDetailList().subList(0,2)) {
-                    for (Review k : j.getReviewList()) {
-                        scoreHistory.add(k.getScore());
+                if(i.getOrderDetailList().size() >= 3) {
+                    for (OrderDetail j : i.getOrderDetailList().subList(0, 2)) {
+                        for (Review k : j.getReviewList()) {
+                            scoreHistory.add(k.getScore());
+                        }
+                    }
+                } else{
+                    for (OrderDetail j : i.getOrderDetailList()) {
+                        for (Review k : j.getReviewList()) {
+                            scoreHistory.add(k.getScore());
+                        }
                     }
                 }
             }
         }
+
         return scoreHistory;
     }
 
     public List<String> getReviewHistory(User user) {
 
-        List<String> reviewHistory = null;
+        List<String> reviewHistory = new ArrayList<>(Collections.emptyList());
 
         if(user.getItemList() != null) {
             for (Item i : user.getItemList()) {
-                for (OrderDetail j : i.getOrderDetailList()) {
-                    for (Review k : j.getReviewList().subList(0,2)) {
-                        reviewHistory.add(k.getTitle());
+                if(i.getOrderDetailList().size() >= 3) {
+                    for (OrderDetail j : i.getOrderDetailList().subList(0, 2)) {
+                        for (Review k : j.getReviewList()) {
+                            reviewHistory.add(k.getTitle());
+                        }
+                    }
+                } else {
+                    for (OrderDetail j : i.getOrderDetailList()) {
+                        for (Review k : j.getReviewList()) {
+                            reviewHistory.add(k.getTitle());
+                        }
                     }
                 }
             }
         }
+
         return reviewHistory;
     }
 }

@@ -16,14 +16,14 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/thumbnail_item")
+@RequestMapping("/api/thumbnail-item")
 @RequiredArgsConstructor
 public class ThumbnailItemApiController implements CrudInterface<ThumbnailItemApiRequest, ThumbnailItemApiResponse> {
 
     private final ThumbnailItemApiLogicService thumbnailItemApiLogicService;
 
     @GetMapping("")
-    public Header<List<ThumbnailItemApiResponse>> search(@PageableDefault(sort = "tiId", direction = Sort.Direction.ASC,size = 20)Pageable pageable){
+    public Header<List<ThumbnailItemApiResponse>> search(@PageableDefault(sort = "tiId", direction = Sort.Direction.ASC,size = 10)Pageable pageable){
         log.info("{}",pageable);
         return thumbnailItemApiLogicService.search(pageable);
     }

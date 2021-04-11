@@ -7,18 +7,17 @@ import com.pandasaza.base.model.entity.User;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.ItemApiRequest;
 import com.pandasaza.base.model.network.request.UserApiRequest;
-import com.pandasaza.base.model.network.response.ItemApiResponse;
-import com.pandasaza.base.model.network.response.ItemUserInfoApiResponse;
-import com.pandasaza.base.model.network.response.SellerApiResponse;
-import com.pandasaza.base.model.network.response.UserApiResponse;
+import com.pandasaza.base.model.network.response.*;
 import com.pandasaza.base.model.service.ThumbnailItemService;
 import com.pandasaza.base.repository.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.CharacterData;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -141,7 +140,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
         ItemApiResponse itemApiResponse = ItemApiResponse.builder()
                 .itemId(item.getItemId())
-                .categoryCategoryId(item.getCategory().getCategoryId())
+                .categoryId(item.getCategory().getCategoryId())
                 .registeredAt(item.getRegisteredAt())
                 .status(item.getStatus())
                 .content(item.getContent())
@@ -171,7 +170,14 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         User user = item.getUser();
         SellerApiResponse sellerApiResponse = userApiLogicService.sellerResponse(user).getData();
 
+        List<Item> itemList = item.getUser().getItemList();
+
+        List<SellerRefApiResponse> sellerRefApiResponse = userApiLogicService.sellerRefResponse(user,id).getData();
+        List<ItemRefApiResponse> itemRefApiResponse = itemRefResponse(item, id).getData();
+
         itemApiResponse.setSellerApiResponse(sellerApiResponse);
+        itemApiResponse.setSellerRefApiResponse(sellerRefApiResponse);
+        itemApiResponse.setItemRefApiResponse(itemRefApiResponse);
 
         ItemUserInfoApiResponse itemUserInfoApiResponse = ItemUserInfoApiResponse.builder()
                 .itemApiResponse(itemApiResponse)
@@ -179,4 +185,30 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
         return Header.OK(itemUserInfoApiResponse);
     }
-}
+
+    private Header<List<ItemRefApiResponse>> itemRefResponse(Item item, Long id) {
+
+        List<ItemRefApiResponse> itemRefApiResponses = new ArrayList<>(Collections.emptyList());
+
+        List<Item> categoryItem = itemRepository.findByCategoryId(item.getCategory().getCategoryId());
+
+        categoryItem.forEach(eachItem->{
+            if(!eachItem.getItemId().equals(id)) {
+                List<String> itemImagesURLList = Stream.of(
+                        eachItem.getItemImagesUrl()
+                                .split(",", -1))
+                        .collect(Collectors.toList());
+
+                ItemRefApiResponse itemRefApiResponse = ItemRefApiResponse.builder()
+                        .itemId(eachItem.getItemId())
+                        .itemImageUrl(itemImagesURLList.get(0))
+                        .price(eachItem.getPrice())
+                        .title(eachItem.getTitle())
+                        .build();
+
+                itemRefApiResponses.add(itemRefApiResponse);
+            }
+        });
+            return Header.OK(itemRefApiResponses);
+        }
+    }

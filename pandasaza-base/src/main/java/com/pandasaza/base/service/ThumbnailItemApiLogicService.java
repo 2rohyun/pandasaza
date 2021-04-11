@@ -81,12 +81,12 @@ public class ThumbnailItemApiLogicService implements CrudInterface<ThumbnailItem
                 .price(thumbnailItem.getPrice())
                 .registeredAt(thumbnailItem.getRegisteredAt())
                 .status(thumbnailItem.getStatus())
-                .itemItemId(thumbnailItem.getItem().getItemId())
                 .tiId(thumbnailItem.getTiId())
                 .thumbnailImageUrl(thumbnailItem.getThumbnailImageUrl())
                 .cntLike(thumbnailItem.getCntLike())
                 .cntShow(thumbnailItem.getCntShow())
                 .university(thumbnailItem.getItem().getUser().getUniversity())
+                .categoryId(thumbnailItem.getItem().getCategory().getCategoryId())
                 .build();
         //Header + data return
         return thumbnailItemApiResponse;
