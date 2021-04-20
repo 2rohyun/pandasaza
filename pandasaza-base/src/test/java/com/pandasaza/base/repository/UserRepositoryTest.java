@@ -21,7 +21,7 @@ public class UserRepositoryTest extends BaseApplicationTests {
 
         User user = new User();
 
-        user.setAccount("TestUser4")
+        user.setAccount("TestUser5")
                 .setPassword("TestPassword4")
                 .setLastLoginAt(LocalDateTime.now())
                 .setStatus(UserStatus.REGISTERED)

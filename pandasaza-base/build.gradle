@@ -43,6 +43,13 @@ dependencies {
     compile group: "org.springframework.security", name: "spring-security-oauth2-jose", version: '5.3.8.RELEASE'
     compile group: "org.springframework.security", name: "spring-security-oauth2-resource-server", version: '5.3.8.RELEASE'
 
+    //swagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
+    compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
+
+
 }
 bootJar {
     jar.enabled = true // 빌드시 jar 을 실행

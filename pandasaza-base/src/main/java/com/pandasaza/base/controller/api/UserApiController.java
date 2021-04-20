@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
+//@ApiOperation(value="사용자 정보 저장", notes="사용자 정보를 저장합니다")
 public class UserApiController implements CrudInterface<UserApiRequest, UserApiResponse> {
 
     private final UserApiLogicService userApiLogicService;
