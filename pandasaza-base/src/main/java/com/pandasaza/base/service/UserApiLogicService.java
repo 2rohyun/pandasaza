@@ -2,6 +2,7 @@ package com.pandasaza.base.service;
 
 import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.entity.User;
+import com.pandasaza.base.model.enumclass.UserStatus;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.model.network.response.*;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +40,29 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     @Override
     // login 서버에서 handling
-    public Header<UserApiResponse> create(Header<UserApiRequest> request) { return null; }
+    public Header<UserApiResponse> create(Header<UserApiRequest> request) {
+        // 1. request data
+        UserApiRequest userApiRequest = request.getData();
+
+        // 2. User 생성
+        User user = User.builder()
+                .account(userApiRequest.getAccount())
+                .password(userApiRequest.getPassword())
+                .phoneNumber((userApiRequest.getPhoneNumber()))
+                .email(userApiRequest.getEmail())
+                .nation(userApiRequest.getNation())
+                .university(userApiRequest.getUniversity())
+                .profileIcon(userApiRequest.getProfileIcon())
+                .authHistory(userApiRequest.getAuthHistory().get(0))
+                .authMethods(userApiRequest.getAuthMethods().get(0))
+                .build();
+
+        User newUser = userRepository.save(user);
+
+        //3. 생성된 데이터 --> userApiResponse return
+        return response(newUser);
+
+    }
 
     @Override
     public Header<UserApiResponse> read(Long id) {

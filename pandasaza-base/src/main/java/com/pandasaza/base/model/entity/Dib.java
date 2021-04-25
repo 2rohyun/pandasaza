@@ -22,9 +22,11 @@ public class Dib {
     private Long dibId;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     private Item item;
 
 }

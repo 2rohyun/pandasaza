@@ -18,9 +18,7 @@ public class UnactiveUserApiController implements CrudInterface<UnactiveUserApiR
     private final UnactiveUserApiLogicService unactiveUserApiLogicService;
 
     @Override
-    public Header<UnactiveUserApiResponse> create(Header<UnactiveUserApiRequest> request) {
-        return null;
-    }
+    public Header<UnactiveUserApiResponse> create(Header<UnactiveUserApiRequest> request) { return null; }
 
     @Override
     @GetMapping("{id}")
