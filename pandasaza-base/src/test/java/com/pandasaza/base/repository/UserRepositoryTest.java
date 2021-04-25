@@ -1,6 +1,7 @@
 package com.pandasaza.base.repository;
 
 import com.pandasaza.base.BaseApplicationTests;
+import com.pandasaza.base.model.entity.Item;
 import com.pandasaza.base.model.entity.User;
 import com.pandasaza.base.model.enumclass.UserStatus;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserRepositoryTest extends BaseApplicationTests {
@@ -18,23 +21,25 @@ public class UserRepositoryTest extends BaseApplicationTests {
 
     @Test
     public void create(){
+        for(int i = 0;i<10;i++){
+            User user = new User();
+            user.setAccount("이도팔")
+                    .setPassword("password")
+                    .setLastLoginAt(LocalDateTime.now())
+                    .setStatus(UserStatus.REGISTERED)
+                    .setRegisteredAt(LocalDateTime.now())
+                    .setEmail("anan@gmail.com")
+                    .setAuthHistory("-")
+                    .setAuthMethods("-")
+                    .setNation("korea")
+                    .setPhoneNumber("010-1111-2222")
+                    .setUniversity("dongguk")
+                    .setProfileIcon("gggg");
 
-        User user = new User();
+            User newUser = userRepository.save(user);
+            Assertions.assertNotNull(newUser);
+        }
 
-        user.setAccount("TestUser5")
-                .setPassword("TestPassword4")
-                .setLastLoginAt(LocalDateTime.now())
-                .setStatus(UserStatus.REGISTERED)
-                .setRegisteredAt(LocalDateTime.now())
-                .setEmail("Test4@email.com")
-                .setAuthHistory("-")
-                .setAuthMethods("-")
-                .setNation("Korea")
-                .setPhoneNumber("010-2222-2222")
-                .setUniversity("dongguk university");
-
-        User newUser = userRepository.save(user);
-        Assertions.assertNotNull(newUser);
     }
 
     @Test

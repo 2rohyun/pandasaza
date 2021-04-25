@@ -28,7 +28,12 @@ public class Category {
     private int groupCode;
 
     //Category 1 : N Item
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @OneToMany(mappedBy = "category")
     private List<Item> itemList;
+
+    public void addItem(Item item){
+        item.setCategory(this);
+        this.itemList.add(item);
+    }
 
 }

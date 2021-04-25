@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,16 +25,21 @@ public class OrderDetail {
     @Column
     private String status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     private Item item;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderDetail")
-    private List<Chatting> chattingList;
+    @OneToMany
+    private List<Chatting> chattingList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderDetail")
-    private List<Review> reviewList;
+    @OneToMany
+    private List<Review> reviewList = new ArrayList<>();
+
+
+
 
 }

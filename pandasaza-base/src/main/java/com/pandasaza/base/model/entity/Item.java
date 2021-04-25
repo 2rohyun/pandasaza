@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -51,20 +52,30 @@ public class Item {
     private Integer cntShow;
 
     //Item N : 1 User
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     //Item N : 1 Category
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    private List<Dib> dibList;
+    @OneToMany(mappedBy = "item")
+    private List<Dib> dibList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    private List<OrderDetail> orderDetailList;
+    @OneToMany(mappedBy = "item")
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    private List<ThumbnailItem> thumbnailItemList;
+
+    // 연관 설정
+    public void addDib(Dib dib){
+        dib.setItem(this);
+        this.dibList.add(dib);
+    }
+    public void addOrderDetail(OrderDetail orderDetail){
+        orderDetail.setItem(this);
+        this.orderDetailList.add(orderDetail);
+    }
 
 }

@@ -26,7 +26,7 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
     private String account;
 
     @Column(nullable = false, length = 1000)
@@ -65,17 +65,44 @@ public class User implements UserDetails{
     @Column
     private String auth;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Item> itemList;
+    @OneToMany(mappedBy = "user")
+    private List<Item> itemList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Dib> dibList;
+    @OneToMany(mappedBy = "user")
+    private List<Dib> dibList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<OrderDetail> orderDetailList;
+    @OneToMany(mappedBy = "user")
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
-    private List<UnactiveUser> unactiveUserList;
+    @OneToMany(mappedBy = "user")
+    private List<UnactiveUser> unactiveUserList = new ArrayList<>();
+
+    // 연관 설정
+    public void addItem(Item item){
+        item.setUser(this);
+        this.itemList.add(item);
+    }
+
+    public void addDib(Dib dib){
+        dib.setUser(this);
+        this.dibList.add(dib);
+    }
+
+    public void addOrderDetail(OrderDetail orderDetail){
+        orderDetail.setUser(this);
+        this.orderDetailList.add(orderDetail);
+    }
+
+    public void addUnactiveUser(UnactiveUser unactiveUser){
+        unactiveUser.setUser(this);
+        this.unactiveUserList.add(unactiveUser);
+    }
+
+
+
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
