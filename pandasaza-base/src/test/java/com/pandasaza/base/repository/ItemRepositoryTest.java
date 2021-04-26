@@ -33,7 +33,10 @@ public class ItemRepositoryTest extends BaseApplicationTests {
                 .setStatus("거래중")
                 .setRegisteredAt(LocalDateTime.now())
                 .setUser(userRepository.findByUserId(2L))
-                .setCategory(categoryRepository.findByCategoryId(1L));
+                .setCategory(categoryRepository.findByCategoryId(1L))
+                .setCntLike(1)
+                .setCntShow(1)
+                .setItemImagesUrl("fdsfsd,fsdfds,fssd");
 
         Item newItem = itemRepository.save(item);
         Assertions.assertNotNull(newItem);

@@ -57,6 +57,13 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
     @Override
     @PutMapping("")
     public Header<UserApiResponse> update(@RequestBody Header<UserApiRequest> userApiRequest) {
+        if (userApiRequest == null) {
+            log.error("received Request : {}", userApiRequest);
+        }
+        // 에러가 안일어난경우
+        else {
+            log.info("succeful Request : {}", userApiRequest);
+        }
         return userApiLogicService.update(userApiRequest);
     }
 

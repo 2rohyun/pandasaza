@@ -59,42 +59,9 @@ class UserApiControllerTest {
     @Test
     void create() throws Exception{
 
-        /*
-        // UserApiRequest 생성
-        UserApiRequest userApiRequest = UserApiRequest.builder()
-                .account("이도팔")
-                .password("password")
-                .lastLoginAt(LocalDateTime.now())
-                .status(UserStatus.REGISTERED)
-                .registeredAt(LocalDateTime.now())
-                .phoneNumber("010-1111-2222")
-                .email("anan@gmail.com")
-                //.authHistory(new ArrayList<>(Arrays.asList("히스토리")))
-                //.authMethods(new ArrayList<>(Arrays.asList("메소드")))
-                .nation("Korea")
-                .university("dongguk")
-                .build();
-        // User 객체 생성
-        User user = User.builder()
-                .account(userApiRequest.getAccount())
-                .password(userApiRequest.getPassword())
-                .lastLoginAt(userApiRequest.getLastLoginAt())
-                .status(userApiRequest.getStatus())
-                .phoneNumber(userApiRequest.getPhoneNumber())
-                .email(userApiRequest.getEmail())
-                .registeredAt(LocalDateTime.now())
-                .authHistory("-")
-                .authMethods("-")
-                .nation(userApiRequest.getNation())
-                .university(userApiRequest.getUniversity())
-                .build();
-
-         */
-
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/user")
                         .contentType(MediaType.APPLICATION_JSON)
-
                         .content("{\n" +
                                 "    \"data\": {\n" +
                                 "        \"account\" : \"이도팔\",\n" +
@@ -112,7 +79,6 @@ class UserApiControllerTest {
                                 "        ]\n" +
                                 "    }\n" +
                                 "}"))
-
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
@@ -146,26 +112,48 @@ class UserApiControllerTest {
                 );
     }
 
-    /*
+
     @Test
-    void modifyPerson() throws Exception{
+    @Transactional
+    void update() throws Exception{
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/person/3")
+                MockMvcRequestBuilders.put("/api/user")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJsonString(dto)))
+                        .content("{\n" +
+                                "    \"data\": {\n" +
+                                "        \"userId\" : 2,\n" +
+                                "        \"account\" : \"이도칠\",\n" +
+                                "        \"password\" : \"1123\",\n" +
+                                "        \"email\" : \"aaa@naver.com\",\n" +
+                                "        \"phoneNumber\" : \"01011111111\",\n" +
+                                "        \"nation\" : \"korea\",\n" +
+                                "        \"university\" : \"dongguk\",\n" +
+                                "        \"profileIcon\" : \"gggg\",\n" +
+                                "        \"authMethods\":[\n" +
+                                "            \"학생증 인증\", \"여권 인증\"\n" +
+                                "        ],\n" +
+                                "        \"authHistory\":[\n" +
+                                "            \"학생증 인증\", \"여권 인증\"\n" +
+                                "        ]\n" +
+                                "    }\n" +
+                                "}"))
+
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        Person result = personRepository.findById(3L).get();
+
+        User result = userRepository.findByUserId(2L);
 
         assertAll(
-                () -> assertThat(result.getName()).isEqualTo("john"),
-                () -> assertThat(result.getAge()).isEqualTo(10),
-                () -> assertThat(result.getBloodType()).isEqualTo("AB")
-        );
+                () -> assertThat(result.getAccount()).isEqualTo("이도칠"),
+                () -> assertThat(result.getEmail()).isEqualTo("aaa@naver.com"),
+                () -> assertThat(result.getPhoneNumber()).isEqualTo("01011111111"),
+                () -> assertThat(result.getNation()).isEqualTo("korea"),
+                () -> assertThat(result.getUniversity()).isEqualTo("dongguk"),
+                () -> assertThat(result.getProfileIcon()).isEqualTo("gggg"));
 
     }
-     */
+
 
     @Test
     @Transactional

@@ -12,6 +12,7 @@ import com.pandasaza.base.model.service.ThumbnailItemService;
 import com.pandasaza.base.repository.*;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.CharacterData;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
 
     private final ItemRepository itemRepository;
@@ -48,7 +50,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
         Item item = Item.builder()
                 .registeredAt(LocalDateTime.now())
-                .status(itemApiRequest.getStatus())
+                .status("REGISTERED")
                 .content(itemApiRequest.getContent())
                 .name(itemApiRequest.getName())
                 .category(categoryRepository.getOne(itemApiRequest.getCategoryCategoryId()))
@@ -75,8 +77,15 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
 
     @Override
-    public Header<ItemApiResponse> read(Long id) {
+    public Header<ItemApiResponse>read(Long id) {
         Optional<Item> optional = itemRepository.findById(id);
+        if (optional == null) {
+            log.error("received Request : {}", optional);
+        }
+        // 에러가 안일어난경우
+        else {
+            log.info("succeful Request : {}", optional);
+        }
 
         //조회수 증가
         itemRepository.updateHitByItemId(id);
@@ -94,10 +103,9 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         ItemApiRequest itemApiRequest = request.getData();
 
         Optional<Item> optional = itemRepository.findById(itemApiRequest.getItemId());
-
         return optional.map(item->{
 
-            item.setStatus(itemApiRequest.getStatus())
+            item.setStatus("REGISTERED")
                     .setPrice(itemApiRequest.getPrice())
                     .setContent(itemApiRequest.getContent())
                     .setTitle(itemApiRequest.getTitle())
@@ -109,9 +117,12 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                                     .map(String::valueOf)
                                     .collect(Collectors.joining(","))
                     )
+                    .setCategory(categoryRepository.findByCategoryId(itemApiRequest.getCategoryCategoryId()))
+                    .setUser(userRepository.findByUserId(itemApiRequest.getUserUserId()))
                     .setCntLike(itemApiRequest.getCntLike())
                     .setCntShow(itemApiRequest.getCntShow());
 
+            log.error("gg: {}",item);
             return item;
         })
                 .map(item->itemRepository.save(item))
@@ -148,7 +159,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 .price(item.getPrice())
                 .title(item.getTitle())
                 .itemImagesUrl(itemImagesURLList)
-                .cntLike(dibRepository.getLikeCount(item.getItemId()))
+                //.cntLike(dibRepository.getLikeCount(item.getItemId()))
                 .cntShow(item.getCntShow())
                 .type(item.getCategory().getType())
                 .build();
