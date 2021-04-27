@@ -23,7 +23,8 @@ public class Chatting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chattingId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private OrderDetail orderDetail;
 
     @Column(columnDefinition="TEXT")

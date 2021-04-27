@@ -1,14 +1,9 @@
 package com.pandasaza.base.controller.api;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pandasaza.base.model.entity.User;
-import com.pandasaza.base.model.enumclass.UserStatus;
-import com.pandasaza.base.model.network.Header;
-import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.repository.UserRepository;
-import com.pandasaza.base.repository.UserRepositoryTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,15 +89,18 @@ class UserApiControllerTest {
     void read() throws Exception{
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/user/2"))
+                MockMvcRequestBuilders.get("/api/user/5"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도팔"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.password").value("password"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("anan@gmail.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("010-1111-2222"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("13"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("aaa@naver.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("01011111111"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.nation").value("korea"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("dongguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[1]").value("여권 인증"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.profileIcon").value("gggg")
                 );
     }
@@ -157,7 +150,7 @@ class UserApiControllerTest {
 
     @Test
     @Transactional
-    void deletePerson() throws Exception{
+    void delete() throws Exception{
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/user/1"))
                 .andDo(print())
@@ -169,5 +162,40 @@ class UserApiControllerTest {
 
     private String toJsonString(User user) throws JsonProcessingException {
         return objectMapper.writeValueAsString(user);
+    }
+
+    @Test
+    void read_user_data() throws Exception{
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/user/data/1"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.userId").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("aaa@naver.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("01011111111"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도칠"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk")
+                );
+    }
+
+    @Test
+    @Transactional
+    void read_user_profile() throws Exception{
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/user/profile/1"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도칠"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.userId").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.nation").value("korea"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.score").value("NaN"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.sellItems.[0]").value(16L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.profileIcon").value("gggg")
+                );
     }
 }

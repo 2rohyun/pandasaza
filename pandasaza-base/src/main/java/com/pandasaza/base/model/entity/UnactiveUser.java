@@ -58,8 +58,7 @@ public class UnactiveUser {
     @Column
     private String profileIcon;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "unactiveUser", fetch = FetchType.LAZY)
     private User user;
 
 }
