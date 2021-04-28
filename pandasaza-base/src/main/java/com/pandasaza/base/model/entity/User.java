@@ -74,8 +74,9 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "user")
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<UnactiveUser> unactiveUserList = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uu_id")
+    private UnactiveUser unactiveUser;
 
     // 연관 설정
     public void addItem(Item item){
@@ -93,9 +94,9 @@ public class User implements UserDetails{
         this.orderDetailList.add(orderDetail);
     }
 
-    public void addUnactiveUser(UnactiveUser unactiveUser){
+    public void setUnactiveUser(UnactiveUser unactiveUser) {
+        this.unactiveUser = unactiveUser;
         unactiveUser.setUser(this);
-        this.unactiveUserList.add(unactiveUser);
     }
 
 

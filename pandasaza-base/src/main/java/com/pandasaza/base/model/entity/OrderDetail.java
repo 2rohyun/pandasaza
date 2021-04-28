@@ -33,11 +33,19 @@ public class OrderDetail {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @OneToMany
+    @OneToMany(mappedBy = "orderDetail")
     private List<Chatting> chattingList = new ArrayList<>();
 
-    @OneToMany
-    private List<Review> reviewList = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+    //==연관 메서드==//
+    public void addChatting(Chatting chatting){
+        chatting.setOrderDetail(this);
+        this.chattingList.add(chatting);
+
+    }
 
 
 

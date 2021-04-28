@@ -20,7 +20,13 @@ public class DibApiController implements CrudInterface<DIbApiRequest, DibApiResp
     @Override
     @PostMapping("")
     public Header<DibApiResponse> create(@RequestBody Header<DIbApiRequest> request) {
-        log.info("{}",request);
+        if (request == null) {
+            log.error("received Request : {}", request);
+        }
+        // 에러가 안일어난경우
+        else {
+            log.info("succeful Request : {}", request);
+        }
         return dibApiLogicService.create(request);
     }
 

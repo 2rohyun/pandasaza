@@ -1,14 +1,9 @@
 package com.pandasaza.base.controller.api;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pandasaza.base.model.entity.User;
-import com.pandasaza.base.model.enumclass.UserStatus;
-import com.pandasaza.base.model.network.Header;
-import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.repository.UserRepository;
-import com.pandasaza.base.repository.UserRepositoryTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,42 +49,9 @@ class UserApiControllerTest {
     @Test
     void create() throws Exception{
 
-        /*
-        // UserApiRequest 생성
-        UserApiRequest userApiRequest = UserApiRequest.builder()
-                .account("이도팔")
-                .password("password")
-                .lastLoginAt(LocalDateTime.now())
-                .status(UserStatus.REGISTERED)
-                .registeredAt(LocalDateTime.now())
-                .phoneNumber("010-1111-2222")
-                .email("anan@gmail.com")
-                //.authHistory(new ArrayList<>(Arrays.asList("히스토리")))
-                //.authMethods(new ArrayList<>(Arrays.asList("메소드")))
-                .nation("Korea")
-                .university("dongguk")
-                .build();
-        // User 객체 생성
-        User user = User.builder()
-                .account(userApiRequest.getAccount())
-                .password(userApiRequest.getPassword())
-                .lastLoginAt(userApiRequest.getLastLoginAt())
-                .status(userApiRequest.getStatus())
-                .phoneNumber(userApiRequest.getPhoneNumber())
-                .email(userApiRequest.getEmail())
-                .registeredAt(LocalDateTime.now())
-                .authHistory("-")
-                .authMethods("-")
-                .nation(userApiRequest.getNation())
-                .university(userApiRequest.getUniversity())
-                .build();
-
-         */
-
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/user")
                         .contentType(MediaType.APPLICATION_JSON)
-
                         .content("{\n" +
                                 "    \"data\": {\n" +
                                 "        \"account\" : \"이도팔\",\n" +
@@ -112,7 +69,6 @@ class UserApiControllerTest {
                                 "        ]\n" +
                                 "    }\n" +
                                 "}"))
-
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
@@ -133,43 +89,68 @@ class UserApiControllerTest {
     void read() throws Exception{
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/user/2"))
+                MockMvcRequestBuilders.get("/api/user/5"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도팔"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.password").value("password"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("anan@gmail.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("010-1111-2222"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("13"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("aaa@naver.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("01011111111"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.nation").value("korea"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("dongguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[1]").value("여권 인증"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.profileIcon").value("gggg")
                 );
     }
 
-    /*
-    @Test
-    void modifyPerson() throws Exception{
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/person/3")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(toJsonString(dto)))
-                .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
-        Person result = personRepository.findById(3L).get();
-
-        assertAll(
-                () -> assertThat(result.getName()).isEqualTo("john"),
-                () -> assertThat(result.getAge()).isEqualTo(10),
-                () -> assertThat(result.getBloodType()).isEqualTo("AB")
-        );
-
-    }
-     */
 
     @Test
     @Transactional
-    void deletePerson() throws Exception{
+    void update() throws Exception{
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/api/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "    \"data\": {\n" +
+                                "        \"userId\" : 2,\n" +
+                                "        \"account\" : \"이도칠\",\n" +
+                                "        \"password\" : \"1123\",\n" +
+                                "        \"email\" : \"aaa@naver.com\",\n" +
+                                "        \"phoneNumber\" : \"01011111111\",\n" +
+                                "        \"nation\" : \"korea\",\n" +
+                                "        \"university\" : \"dongguk\",\n" +
+                                "        \"profileIcon\" : \"gggg\",\n" +
+                                "        \"authMethods\":[\n" +
+                                "            \"학생증 인증\", \"여권 인증\"\n" +
+                                "        ],\n" +
+                                "        \"authHistory\":[\n" +
+                                "            \"학생증 인증\", \"여권 인증\"\n" +
+                                "        ]\n" +
+                                "    }\n" +
+                                "}"))
+
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        User result = userRepository.findByUserId(2L);
+
+        assertAll(
+                () -> assertThat(result.getAccount()).isEqualTo("이도칠"),
+                () -> assertThat(result.getEmail()).isEqualTo("aaa@naver.com"),
+                () -> assertThat(result.getPhoneNumber()).isEqualTo("01011111111"),
+                () -> assertThat(result.getNation()).isEqualTo("korea"),
+                () -> assertThat(result.getUniversity()).isEqualTo("dongguk"),
+                () -> assertThat(result.getProfileIcon()).isEqualTo("gggg"));
+
+    }
+
+
+    @Test
+    @Transactional
+    void delete() throws Exception{
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/user/1"))
                 .andDo(print())
@@ -181,5 +162,40 @@ class UserApiControllerTest {
 
     private String toJsonString(User user) throws JsonProcessingException {
         return objectMapper.writeValueAsString(user);
+    }
+
+    @Test
+    void read_user_data() throws Exception{
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/user/data/1"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.userId").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("aaa@naver.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.phoneNumber").value("01011111111"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도칠"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk")
+                );
+    }
+
+    @Test
+    @Transactional
+    void read_user_profile() throws Exception{
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/user/profile/1"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.account").value("이도칠"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.userId").value("1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.nation").value("korea"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.score").value("NaN"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.sellItems.[0]").value(16L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.university").value("donnguk"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authMethods.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[0]").value("학생증 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.authHistory.[1]").value("여권 인증"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.profileIcon").value("gggg")
+                );
     }
 }

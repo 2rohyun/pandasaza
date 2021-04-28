@@ -33,7 +33,9 @@ public class Review {
     @Column
     private LocalDateTime registeredAt;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private OrderDetail orderDetail;
+
+
 
 }

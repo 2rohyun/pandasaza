@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,8 +30,9 @@ public class Category {
 
     //Category 1 : N Item
     @OneToMany(mappedBy = "category")
-    private List<Item> itemList;
+    private List<Item> itemList = new ArrayList<>();
 
+    //==연관 메서드==//
     public void addItem(Item item){
         item.setCategory(this);
         this.itemList.add(item);

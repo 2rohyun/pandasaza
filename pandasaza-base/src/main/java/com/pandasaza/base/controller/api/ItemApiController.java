@@ -29,7 +29,13 @@ public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiR
     @Override
     @PostMapping("")
     public Header<ItemApiResponse> create(@RequestBody Header<ItemApiRequest> request) {
-        log.info("{}",request);
+        if (request == null) {
+            log.error("received Request : {}", request);
+        }
+        // 에러가 안일어난경우
+        else {
+            log.info("succeful Request : {}", request);
+        }
         return itemApiLogicService.create(request);
     }
 
@@ -43,6 +49,13 @@ public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiR
     @Override
     @PutMapping("")
     public Header<ItemApiResponse> update(@RequestBody Header<ItemApiRequest> request) {
+        if (request == null) {
+            log.error("received Request : {}", request);
+        }
+        // 에러가 안일어난경우
+        else {
+            log.info("succeful Request : {}", request);
+        }
         return itemApiLogicService.update(request);
     }
 

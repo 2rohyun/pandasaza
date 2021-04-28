@@ -110,7 +110,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .setStatus(userApiRequest.getStatus())
                     .setLastLoginAt(userApiRequest.getLastLoginAt())
                     .setProfileIcon(userApiRequest.getProfileIcon());
-
+            log.error("gg: {}",user);
             return user;
         })
                 .map(user->userRepository.save(user))

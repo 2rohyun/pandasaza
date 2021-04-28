@@ -43,7 +43,8 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
     }
 
     @Override
-    public Header<OrderDetailApiResponse> read(Long id) {
+    public Header<OrderDetailApiResponse>
+    read(Long id) {
         Optional<OrderDetail> optional = orderDetailRepository.findById(id);
 
         return optional
@@ -60,9 +61,7 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
         Optional<OrderDetail> optional = orderDetailRepository.findById(orderDetailApiRequest.getOrderId());
 
         return optional.map(orderDetail->{
-
             orderDetail.setStatus(orderDetailApiRequest.getStatus());
-
             return orderDetail;
         })
                 .map(orderDetail->orderDetailRepository.save(orderDetail))
