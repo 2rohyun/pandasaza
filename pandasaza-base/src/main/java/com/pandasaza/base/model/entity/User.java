@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @AllArgsConstructor
+
 @NoArgsConstructor
 @Data
 @Builder
@@ -78,6 +79,10 @@ public class User implements UserDetails{
     @JoinColumn(name = "uu_id")
     private UnactiveUser unactiveUser;
 
+    @OneToMany(mappedBy = "review")
+    private List<Review> reviewList = new ArrayList<>();
+
+
     // 연관 설정
     public void addItem(Item item){
         item.setUser(this);
@@ -97,6 +102,11 @@ public class User implements UserDetails{
     public void setUnactiveUser(UnactiveUser unactiveUser) {
         this.unactiveUser = unactiveUser;
         unactiveUser.setUser(this);
+    }
+
+    public void addReview(Review review){
+        review.setUser(this);
+        this.reviewList.add(review);
     }
 
 

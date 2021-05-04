@@ -36,6 +36,11 @@ public class Review {
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private OrderDetail orderDetail;
 
+    //Review N : 1 User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 
 }
