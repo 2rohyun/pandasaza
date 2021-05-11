@@ -1,9 +1,13 @@
-package com.pandasaza.base.model.network.response;
+package com.pandasaza.base.model.network.request;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
@@ -11,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserProfileApiResponse {
+public class UserProfileApiRequest {
     private Number profileId;
 
     private String profileName;

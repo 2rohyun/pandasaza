@@ -46,13 +46,9 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
         // 2. User 생성
         User user = User.builder()
-                .account(userApiRequest.getAccount())
-                .password(userApiRequest.getPassword())
-                .phoneNumber((userApiRequest.getPhoneNumber()))
                 .email(userApiRequest.getEmail())
-                .nation(userApiRequest.getNation())
+                .nationality(userApiRequest.getNationality())
                 .university(userApiRequest.getUniversity())
-                .profileIcon(userApiRequest.getProfileIcon())
                 .authHistory(userApiRequest.getAuthHistory().get(0))
                 .authMethods(userApiRequest.getAuthMethods().get(0))
                 .build();
@@ -85,16 +81,14 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         Optional<User> optional = userRepository.findById(userApiRequest.getUserId());
         unactiveUserService.delete(userApiRequest.getUserId());
 
-        String encodePassword = passwordEncoder.encode(userApiRequest.getPassword());
+        //String encodePassword = passwordEncoder.encode(userApiRequest.getPassword());
 
         return optional.map(user->{
             //3. update
-            user.setAccount(userApiRequest.getAccount())
-                    .setPassword(encodePassword)
+            user
                     .setEmail(userApiRequest.getEmail())
                     .setUniversity(userApiRequest.getUniversity())
-                    .setNation(userApiRequest.getNation())
-                    .setPhoneNumber(userApiRequest.getPhoneNumber())
+                    .setNationality(userApiRequest.getNationality())
                     .setAuthMethods(
                             userApiRequest.getAuthMethods()
                                     .stream()
@@ -109,7 +103,6 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     )
                     .setStatus(userApiRequest.getStatus())
                     .setLastLoginAt(userApiRequest.getLastLoginAt())
-                    .setProfileIcon(userApiRequest.getProfileIcon());
             log.error("gg: {}",user);
             return user;
         })
@@ -153,17 +146,13 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .collect(Collectors.toList());
 
         UserApiResponse userApiResponse = UserApiResponse.builder()
-                .account(user.getAccount())
                 .userId(user.getUserId())
                 .password(user.getPassword())
-                .phoneNumber(user.getPhoneNumber())
                 .status(user.getStatus())
                 .email(user.getEmail())
                 .registeredAt(user.getRegisteredAt())
                 .lastLoginAt(user.getLastLoginAt())
-                .nation(user.getNation())
-                .university(user.getUniversity())
-                .profileIcon(user.getProfileIcon())
+                .nation(user.getNationality())
                 .authMethods(authMethodsList)
                 .authHistory(authHistoryList)
                 .itemList(itemIdList)
@@ -176,10 +165,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<SellerApiResponse> sellerResponse(User user){
         SellerApiResponse sellerApiResponse = SellerApiResponse.builder()
                 .userId(user.getUserId())
-                .account(user.getAccount())
-                .nation(user.getNation())
+                .nation(user.getNationality())
                 .university(user.getUniversity())
-                .profileIcon(user.getProfileIcon())
                 .score(userReviewService.getAvgScore(user))
                 .build();
 
@@ -244,10 +231,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
         UserProfileApiResponse userProfileApiResponse = UserProfileApiResponse.builder()
                 .userId(user.getUserId())
-                .profileIcon(user.getProfileIcon())
-                .account(user.getAccount())
                 .lastLoginAt(user.getLastLoginAt()) // TODO ( 로그인 시 last_login_at 업데이트 )
-                .nation(user.getNation())
+                .nation(user.getNationality())
                 .score(userReviewService.getAvgScore(user))
                 .university(user.getUniversity())
                 .authMethods(authMethodsList) // TODO ( 동민이 어드민 페이지 완성되면 디테일하게 구현 )
@@ -263,10 +248,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserDataApiResponse> userDataResponse(User user) {
         UserDataApiResponse userDataApiResponse = UserDataApiResponse.builder()
                 .userId(user.getUserId())
-                .account(user.getAccount())
                 .email(user.getEmail())
                 .university(user.getUniversity())
-                .phoneNumber(user.getPhoneNumber())
                 .build();
 
         return Header.OK(userDataApiResponse);

@@ -20,9 +20,7 @@ public class UserApiRequest {
 
     private Long userId;
 
-    private String account;
-
-    private String password;
+    private String school;
 
     private UserStatus status;
 
@@ -32,13 +30,11 @@ public class UserApiRequest {
 
     private LocalDateTime registeredAt;
 
-    private String nation;
+    private String nationality;
 
     private LocalDateTime lastLoginAt;
 
     private String university;
-
-    private String profileIcon;
 
     private List<String> authMethods;
 
