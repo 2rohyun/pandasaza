@@ -26,7 +26,8 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
+public class
+UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
 
     private final UserRepository userRepository;
 
@@ -102,7 +103,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                                     .collect(Collectors.joining(","))
                     )
                     .setStatus(userApiRequest.getStatus())
-                    .setLastLoginAt(userApiRequest.getLastLoginAt())
+                    .setLastLoginAt(userApiRequest.getLastLoginAt());
             log.error("gg: {}",user);
             return user;
         })
@@ -217,6 +218,14 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     }
 
+
+
+
+
+
+
+
+/**
     public Header<UserProfileApiResponse> userProfileResponse(User user){
 
         List<String> authMethodsList = Stream.of(
@@ -244,6 +253,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
                 return Header.OK(userProfileApiResponse);
     }
+
 
     public Header<UserDataApiResponse> userDataResponse(User user) {
         UserDataApiResponse userDataApiResponse = UserDataApiResponse.builder()
@@ -277,4 +287,5 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                         () -> Header.ERROR("데이터 없음")
                 );
     }
+ **/
 }

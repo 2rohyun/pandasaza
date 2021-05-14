@@ -20,7 +20,7 @@ import java.util.Date;
 @Builder
 public class AccountApiRequest {
     
-    private Number accountId;
+    private Long accountId;
 
     private User user;
 

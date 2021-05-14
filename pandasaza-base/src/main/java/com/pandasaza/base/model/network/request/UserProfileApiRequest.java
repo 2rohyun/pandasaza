@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class UserProfileApiRequest {
-    private Number profileId;
+    private Long profileId;
 
     private String profileName;
 

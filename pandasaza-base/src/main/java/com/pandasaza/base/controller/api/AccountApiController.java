@@ -7,10 +7,9 @@ import com.pandasaza.base.model.network.request.AccountApiResponse;
 import com.pandasaza.base.service.AccountApiLogicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -20,7 +19,8 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
 
     private final AccountApiLogicService accountApiLogicService;
     @Override
-    public Header<AccountApiResponse> create(@RequestBody Header<AccountApiRequest> accountApiRequest) {
+    @PostMapping("")
+    public Header<AccountApiResponse> create(@Valid @RequestBody Header<AccountApiRequest> accountApiRequest) {
         if (accountApiRequest == null) {
             log.error("received Request : {}", accountApiRequest);
         }
@@ -32,6 +32,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
     }
 
     @Override
+    @GetMapping("{id}")
     public Header<AccountApiResponse> read(@PathVariable Long id) {
         if (id == null) {
             log.error("received Request : {}", id);
@@ -44,6 +45,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
     }
 
     @Override
+    @PutMapping("")
     public Header<AccountApiResponse> update(Header<AccountApiRequest> accountApiRequest) {
         if (accountApiRequest == null) {
             log.error("received Request : {}", accountApiRequest);
@@ -56,6 +58,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
     }
 
     @Override
+    @DeleteMapping("{id}")
     public Header delete(Long id) {
         if (id == null) {
             log.error("received Request : {}", id);

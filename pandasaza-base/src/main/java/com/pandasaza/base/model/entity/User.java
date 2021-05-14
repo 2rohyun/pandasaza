@@ -28,8 +28,7 @@ public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long
-            userId;
+    private Long userId;
 
     @NotNull
     private String school;
@@ -45,7 +44,7 @@ public class User implements UserDetails{
 
     @CreatedDate
     @NotNull
-    private Date registeredAt;
+    private LocalDateTime registeredAt;
 
     @LastModifiedDate
     @NotNull

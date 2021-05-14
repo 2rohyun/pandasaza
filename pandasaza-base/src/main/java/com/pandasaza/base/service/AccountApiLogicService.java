@@ -51,7 +51,20 @@ public class AccountApiLogicService implements CrudInterface<AccountApiRequest, 
 
     @Override
     public Header<AccountApiResponse> update(Header<AccountApiRequest> request) {
-        return null;
+        AccountApiRequest accountApiRequest = request.getData();
+
+        Optional<Account> optional = accountRepository.findById(accountApiRequest.getAccountId());
+
+        return optional.map(account -> {
+            account.setPhone(accountApiRequest.getPhone())
+                    .setUser(accountApiRequest.getUser())
+                    .setRegisteredAt(accountApiRequest.getRegisteredAt());
+            return account;
+        })
+                .map(account -> accountRepository.save(account))
+                .map(updateAccount -> response(updateAccount))
+                .orElseGet(()-> Header.ERROR("데이터 없음"));
+
     }
 
     @Override

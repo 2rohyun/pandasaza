@@ -31,19 +31,19 @@ public class UnactiveUserService {
         user.forEach(u->{
             if(ChronoUnit.DAYS.between(u.getLastLoginAt(),today) > 100){
                 unactiveUser.setUuId(u.getUserId());
-                unactiveUser.setAccount(u.getAccount());
+                //unactiveUser.setAccount(u.getAccount());
                 unactiveUser.setEmail(u.getEmail());
                 unactiveUser.setAuthMethods(u.getAuthMethods());
                 unactiveUser.setAuthHistory(u.getAuthHistory());
-                unactiveUser.setNation(u.getNation());
+                //unactiveUser.setNation(u.getNation());
                 unactiveUser.setPassword(u.getPassword());
                 unactiveUser.setLastLoginAt(u.getLastLoginAt());
-                unactiveUser.setPhoneNumber(u.getPhoneNumber());
+                //unactiveUser.setPhoneNumber(u.getPhoneNumber());
                 unactiveUser.setRegisteredAt(u.getRegisteredAt());
                 unactiveUser.setStatus(UserStatus.REGISTERED);
                 unactiveUser.setUniversity(u.getUniversity());
                 unactiveUser.setUser(u);
-                unactiveUser.setProfileIcon(u.getProfileIcon());
+                //unactiveUser.setProfileIcon(u.getProfileIcon());
 
                 unactiveUserRepository.save(unactiveUser);
             }

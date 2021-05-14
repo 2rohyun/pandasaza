@@ -25,20 +25,24 @@ public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Number profileId;
+    private Long profileId;
 
     @NotNull
     @Length(min = 2, max = 12)
+    @Column(columnDefinition = "VARCHAR")
     private String profileName;
 
+    @Column(columnDefinition = "TEXT")
     private String profileImage;
 
     @CreatedDate
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date registeredAt;
 
     @LastModifiedDate
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
 }

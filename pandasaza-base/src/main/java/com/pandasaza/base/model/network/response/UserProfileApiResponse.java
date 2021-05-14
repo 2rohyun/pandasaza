@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class UserProfileApiResponse {
-    private Number profileId;
+    private Long profileId;
 
     private String profileName;
 

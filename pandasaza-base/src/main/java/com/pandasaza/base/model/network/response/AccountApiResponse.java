@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class AccountApiResponse {
-    private Number accountId;
+    private Long accountId;
 
     private User user;
 

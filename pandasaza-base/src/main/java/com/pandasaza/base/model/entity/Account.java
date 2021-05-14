@@ -25,18 +25,19 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Number accountId;
+    private Long accountId;
 
     @OneToOne
     @JoinColumn(name = "user")
     private User user;
 
-    @Column(columnDefinition = "TEXT")
+
     @Length(min = 10, max = 11)
     private String phone;
 
     @CreatedDate
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date registeredAt;
 
 }
