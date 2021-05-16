@@ -20,7 +20,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 @Accessors(chain = true)
-@Entity(name = "account")
+@Entity
 public class Account {
 
     @Id

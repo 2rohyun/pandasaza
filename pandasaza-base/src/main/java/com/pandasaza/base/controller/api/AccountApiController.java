@@ -26,7 +26,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
         }
         // 에러가 안일어난경우
         else {
-            log.info("succeful Request : {}", accountApiRequest);
+            log.info("successful Request : {}", accountApiRequest);
         }
         return accountApiLogicService.create(accountApiRequest);
     }
@@ -39,7 +39,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
         }
         // 에러가 안일어난경우
         else {
-            log.info("succeful Request : {}", id);
+            log.info("successful Request : {}", id);
         }
         return accountApiLogicService.read(id);
     }
@@ -52,7 +52,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
         }
         // 에러가 안일어난경우
         else {
-            log.info("succeful Request : {}", accountApiRequest);
+            log.info("successful Request : {}", accountApiRequest);
         }
         return accountApiLogicService.update(accountApiRequest);
     }
@@ -65,7 +65,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
         }
         // 에러가 안일어난경우
         else {
-            log.info("succeful Request : {}", id);
+            log.info("successful Request : {}", id);
         }
         return accountApiLogicService.delete(id);
     }

@@ -9,8 +9,6 @@ import com.pandasaza.base.model.network.response.ItemUserInfoApiResponse;
 import com.pandasaza.base.service.ItemApiLogicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

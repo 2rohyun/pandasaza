@@ -12,7 +12,6 @@ import com.pandasaza.base.model.service.UserReviewService;
 import com.pandasaza.base.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,8 +31,6 @@ UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
     private final UserRepository userRepository;
 
     private final UnactiveUserService unactiveUserService;
-
-    private final PasswordEncoder passwordEncoder;
 
     private final UserReviewService userReviewService;
 
@@ -148,7 +145,6 @@ UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
 
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .userId(user.getUserId())
-                .password(user.getPassword())
                 .status(user.getStatus())
                 .email(user.getEmail())
                 .registeredAt(user.getRegisteredAt())

@@ -20,7 +20,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 @Accessors(chain = true)
-@Entity(name = "user_profile")
+@Entity
 public class UserProfile {
 
     @Id
@@ -29,7 +29,7 @@ public class UserProfile {
 
     @NotNull
     @Length(min = 2, max = 12)
-    @Column(columnDefinition = "VARCHAR")
+    @Column
     private String profileName;
 
     @Column(columnDefinition = "TEXT")

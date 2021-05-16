@@ -36,7 +36,6 @@ public class UnactiveUserService {
                 unactiveUser.setAuthMethods(u.getAuthMethods());
                 unactiveUser.setAuthHistory(u.getAuthHistory());
                 //unactiveUser.setNation(u.getNation());
-                unactiveUser.setPassword(u.getPassword());
                 unactiveUser.setLastLoginAt(u.getLastLoginAt());
                 //unactiveUser.setPhoneNumber(u.getPhoneNumber());
                 unactiveUser.setRegisteredAt(u.getRegisteredAt());
