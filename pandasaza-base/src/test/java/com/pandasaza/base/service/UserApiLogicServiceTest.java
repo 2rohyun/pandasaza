@@ -28,12 +28,12 @@ class UserApiLogicServiceTest {
     @Test
     void getPerson(){
         Mockito.when(userRepository.findById(1L))
-                .thenReturn(Optional.of(User.builder().account("이도팔")
-                                .password("password")
-                                .phoneNumber("010-1111-2222")
-                                .nation("korea")
+                .thenReturn(Optional.of(User.builder()
+
+
+                                //.nation("korea")
                                 .university("dongguk")
-                                .profileIcon("gggg")
+                                //.profileIcon("gggg")
                                 //.authMethods()
                                 //.authHistory()
                                 .build()));

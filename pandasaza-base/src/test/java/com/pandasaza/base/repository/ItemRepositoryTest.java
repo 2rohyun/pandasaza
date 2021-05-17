@@ -56,13 +56,13 @@ public class ItemRepositoryTest extends BaseApplicationTests {
         System.out.println("아이템 가격 : " + item.getPrice());
         System.out.println("아이템 등록일 : " + item.getRegisteredAt());
         System.out.println("-----------------------------아이템 판매자 정보-----------------------------");
-        System.out.println("아이템 판매자 계정 : " + item.getUser().getAccount());
+        //System.out.println("아이템 판매자 계정 : " + item.getUser().getAccount());
         System.out.println("-----------------------------아이템 카테고리 정보-----------------------------");
         System.out.println("아이템 카테고리 타입 : " + item.getCategory().getType());
         System.out.println("-----------------------------아이템 오더 정보-----------------------------");
         item.getOrderDetailList().forEach(o->{
             System.out.println("아이템 주문 상태 : " + o.getStatus());
-            System.out.println("아이템 주문자 계정 : " + o.getUser().getAccount());
+            //System.out.println("아이템 주문자 계정 : " + o.getUser().getAccount());
         });
 
 

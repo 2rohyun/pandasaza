@@ -30,7 +30,7 @@ public class User{
     @NotNull
     private String school;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String nationality;
 
     @Enumerated(EnumType.STRING)

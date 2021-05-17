@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class BaseApplication {
+    public static final String APPLICATION_LOCATIONS = "spring.config.location="
+            + "classpath:application.yml,"
+            + "classpath:application-credential.yml";
 
     public static void main(String[] args) {
         SpringApplication.run(BaseApplication.class, args);
