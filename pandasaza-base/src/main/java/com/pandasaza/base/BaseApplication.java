@@ -10,6 +10,7 @@ public class BaseApplication {
             + "classpath:application-credential.yml";
 
     public static void main(String[] args) {
+
         SpringApplication.run(BaseApplication.class, args);
     }
 

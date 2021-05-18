@@ -41,3 +41,5 @@ cloud:
     credentials:
       #       AWS CLI에서 aws configure list 정보를 반영할건지 여부
       instanceProfile: true
+      accessKey: AKIAWINC2VW76Z4E7IXP
+      secretKey: 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
