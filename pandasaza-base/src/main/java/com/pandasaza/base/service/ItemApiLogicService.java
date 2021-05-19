@@ -3,6 +3,7 @@ package com.pandasaza.base.service;
 import com.pandasaza.base.ifs.CrudInterface;
 import com.pandasaza.base.model.entity.Category;
 import com.pandasaza.base.model.entity.Item;
+import com.pandasaza.base.model.entity.ItemImage;
 import com.pandasaza.base.model.entity.User;
 import com.pandasaza.base.model.network.Header;
 import com.pandasaza.base.model.network.request.ItemApiRequest;
@@ -10,6 +11,7 @@ import com.pandasaza.base.model.network.request.UserApiRequest;
 import com.pandasaza.base.model.network.response.*;
 import com.pandasaza.base.model.service.ThumbnailItemService;
 import com.pandasaza.base.repository.*;
+import com.pandasaza.base.utils.Uploader;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService {
 
     private final ItemRepository itemRepository;
 
@@ -43,40 +45,48 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     private final DibRepository dibRepository;
 
-    public Header<ItemApiResponse> create(Header<ItemApiRequest> request){
+    private final ItemImageRepository itemImageRepository;
 
-        ItemApiRequest itemApiRequest = request.getData();
+    public List<String> create(ItemApiRequest request, List<String> uploadUrlList) {
+
+        ItemApiRequest itemApiRequest = request;
+
 
         Item item = Item.builder()
                 .registeredAt(LocalDateTime.now())
                 .status("REGISTERED")
                 .content(itemApiRequest.getContent())
                 .name(itemApiRequest.getName())
-                .category(categoryRepository.getOne(itemApiRequest.getCategoryCategoryId()))
-                .user(userRepository.getOne(itemApiRequest.getUserUserId()))
+                //.category(categoryRepository.getOne(itemApiRequest.getCategoryCategoryId()))
+                //.user(userRepository.getOne(itemApiRequest.getUserUserId()))
                 .title(itemApiRequest.getTitle())
                 .price(itemApiRequest.getPrice())
-                .itemImagesUrl(
-                        //List to String
-                        itemApiRequest.getItemImagesUrl()
-                                .stream()
-                                .map(String::valueOf)
-                                .collect(Collectors.joining(","))
-                )
+//                .itemImagesUrl(
+//                        //List to String
+//                        itemApiRequest.getItemImagesUrl()
+//                                .stream()
+//                                .map(String::valueOf)
+//                                .collect(Collectors.joining(","))
+//                )
                 .cntLike(0)
                 .cntShow(0)
                 .build();
-
         Item newItem = itemRepository.save(item);
-        thumbnailItemService.create(newItem.getItemId());
 
-        return response(newItem);
+        ItemImage itemImage = ItemImage.builder()
+                .imageUrl(
+                        uploadUrlList.stream()
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(",")))
+                .item(newItem)
+                .build();
+
+        itemImageRepository.save(itemImage);
+        //thumbnailItemService.create(newItem.getItemId());
+        return uploadUrlList;
     }
 
-
-
-    @Override
-    public Header<ItemApiResponse>read(Long id) {
+    public Header<ItemApiResponse> read(Long id) {
         Optional<Item> optional = itemRepository.findById(id);
         if (optional == null) {
             log.error("received Request : {}", optional);
@@ -97,56 +107,54 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 );
     }
 
-    @Override
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
         ItemApiRequest itemApiRequest = request.getData();
 
         Optional<Item> optional = itemRepository.findById(itemApiRequest.getItemId());
-        return optional.map(item->{
+        return optional.map(item -> {
 
             item.setStatus("REGISTERED")
                     .setPrice(itemApiRequest.getPrice())
                     .setContent(itemApiRequest.getContent())
                     .setTitle(itemApiRequest.getTitle())
                     .setName(itemApiRequest.getName())
-                    .setItemImagesUrl(
-                            //List to String
-                            itemApiRequest.getItemImagesUrl()
-                                    .stream()
-                                    .map(String::valueOf)
-                                    .collect(Collectors.joining(","))
-                    )
+//                    .setItemImagesUrl(
+//                            //List to String
+//                            itemApiRequest.getItemImagesUrl()
+//                                    .stream()
+//                                    .map(String::valueOf)
+//                                    .collect(Collectors.joining(","))
+//                    )
                     .setCategory(categoryRepository.findByCategoryId(itemApiRequest.getCategoryCategoryId()))
                     .setUser(userRepository.findByUserId(itemApiRequest.getUserUserId()))
                     .setCntLike(itemApiRequest.getCntLike())
                     .setCntShow(itemApiRequest.getCntShow());
 
-            log.error("gg: {}",item);
+            log.error("gg: {}", item);
             return item;
         })
-                .map(item->itemRepository.save(item))
-                .map(updateItem->response(updateItem))
-                .orElseGet(()->Header.ERROR("데이터 없음"));
+                .map(item -> itemRepository.save(item))
+                .map(updateItem -> response(updateItem))
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    @Override
     public Header delete(Long id) {
         Optional<Item> optional = itemRepository.findById(id);
 
-        return optional.map(item->{
+        return optional.map(item -> {
             thumbnailItemService.delete(item.getItemId());
             itemRepository.delete(item);
             return Header.OK();
         })
-                .orElseGet(()->Header.ERROR("데이터 없음"));
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    private Header<ItemApiResponse> response(Item item){
+    private Header<ItemApiResponse> response(Item item) {
         // String to List
-        List<String> itemImagesURLList = Stream.of(
-                item.getItemImagesUrl()
-                        .split(",",-1))
-                        .collect(Collectors.toList());
+//        List<String> itemImagesURLList = Stream.of(
+//                item.getItemImagesUrl()
+//                        .split(",", -1))
+//                .collect(Collectors.toList());
 
         ItemApiResponse itemApiResponse = ItemApiResponse.builder()
                 .itemId(item.getItemId())
@@ -157,7 +165,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 .name(item.getName())
                 .price(item.getPrice())
                 .title(item.getTitle())
-                .itemImagesUrl(itemImagesURLList)
+                //.itemImagesUrl(itemImagesURLList)
                 //.cntLike(dibRepository.getLikeCount(item.getItemId()))
                 .cntShow(item.getCntShow())
                 .type(item.getCategory().getType())
@@ -165,8 +173,9 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         //Header + data return
         return Header.OK(itemApiResponse);
     }
+}
 
-
+/**
     public Header<ItemUserInfoApiResponse> itemUserInfo(Long id) {
 
         //level1 : item
@@ -222,3 +231,4 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
             return Header.OK(itemRefApiResponses);
         }
     }
+**/

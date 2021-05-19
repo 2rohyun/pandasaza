@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface Uploader {
 
-    List<String> upload(UploadUserRequestForm multipartFile, String dirName) throws IOException;
+    List<String> upload(List<MultipartFile> imageList, String dirName) throws IOException;
 
 }

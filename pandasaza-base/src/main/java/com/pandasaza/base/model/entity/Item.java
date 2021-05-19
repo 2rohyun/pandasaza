@@ -24,26 +24,24 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-    @Column(nullable = false)
+    @Column
     private String status;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false)
+    @Column
     private BigDecimal price;
 
     @Column
     private LocalDateTime registeredAt;
 
-    @Column(length = 3000)
-    private String itemImagesUrl;
 
     @Column
     private Integer cntLike;
@@ -67,6 +65,9 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
+    //Item 1 : N ItemImage
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> itemImageList = new ArrayList<>();
 
     // 연관 설정
     public void addDib(Dib dib){
@@ -76,6 +77,10 @@ public class Item {
     public void addOrderDetail(OrderDetail orderDetail){
         orderDetail.setItem(this);
         this.orderDetailList.add(orderDetail);
+    }
+    public void addItemImage(ItemImage itemImage){
+        itemImage.setItem(this);
+        this.itemImageList.add(itemImage);
     }
 
 }

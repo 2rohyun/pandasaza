@@ -20,14 +20,14 @@ public class UploadController {
 
     private final Uploader uploader;
     @PostMapping("/api/v1/upload")
-    public List<String> upload(@ModelAttribute UploadUserRequestForm uploadUserRequestForm) throws IOException {
-        log.info("file: {}",uploadUserRequestForm);
-        uploadUserRequestForm.getUploadUserRequest().getProfileImageList().stream()
-            .forEach(uploadFile ->{
-                System.out.println(uploadFile.getOriginalFilename());
+    public List<String> upload(@RequestParam("image") List<MultipartFile> imageList) throws IOException {
+        log.info("file: {}",imageList);
+        imageList.stream()
+            .forEach(uploadImage ->{
+                System.out.println(uploadImage.getOriginalFilename());
             });
 
-        return uploader.upload(uploadUserRequestForm, "static");
+        return uploader.upload(imageList, "static");
     }
 
 }

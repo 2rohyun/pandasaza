@@ -25,8 +25,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class
-UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
+public class UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
 
     private final UserRepository userRepository;
 
@@ -169,7 +168,7 @@ UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
 
         return Header.OK(sellerApiResponse);
     }
-
+    /**
     public Header<List<SellerRefApiResponse>> sellerRefResponse(User user, Long id){
         List<SellerRefApiResponse> sellerRefApiResponses = new ArrayList<>(Collections.emptyList());
 
@@ -212,8 +211,9 @@ UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
 
         return Header.OK(sellerRefApiResponses);
 
-    }
 
+    }
+     **/
 
 
 
