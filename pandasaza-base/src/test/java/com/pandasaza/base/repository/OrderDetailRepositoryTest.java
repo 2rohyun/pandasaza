@@ -40,14 +40,14 @@ public class OrderDetailRepositoryTest extends BaseApplicationTests {
         OrderDetail orderDetail = orderDetailRepository.findByOrderId(1L);
 
         System.out.println("주문 상태 : " + orderDetail.getStatus());
-        System.out.println("판매자 : " + orderDetail.getItem().getUser().getAccount());
-        System.out.println("구매자 : " + orderDetail.getUser().getAccount());
+        //System.out.println("판매자 : " + orderDetail.getItem().getUser().getAccount());
+        //System.out.println("구매자 : " + orderDetail.getUser().getAccount());
         orderDetail.getChattingList().forEach(chatting ->{
             System.out.println("채팅방 ID : " + chatting.getChattingId());
         });
-        orderDetail.getReviewList().forEach(review -> {
-            System.out.println("리뷰 ID : " + review.getReviewId());
-        });
+//        orderDetail.getReviewList().forEach(review -> {
+//            System.out.println("리뷰 ID : " + review.getReviewId());
+//        });
     }
 
 }

@@ -5,37 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserProfileApiResponse {
+    private Long profileId;
 
-    private Long userId;
+    private String profileName;
 
-    private String account;
+    private String profileImage;
 
-    private String university;
+    private Date registeredAt;
 
-    private String profileIcon;
-
-    private String nation;
-
-    private float score;
-
-    private List<String> authMethods;
-
-    private List<String> authHistory;
-
-    private LocalDateTime lastLoginAt;
-
-    private List<Long> sellItems;
-
-    private List<Integer> scoreHistory;
-
-    private List<String> reviewHistory;
-
+    private Date updatedAt;
 }

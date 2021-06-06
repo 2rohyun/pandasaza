@@ -1,0 +1,6 @@
+
+cloud:
+  aws:
+    s3:
+      accessKey: AKIAWINC2VW76Z4E7IXP
+      secretKey: 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

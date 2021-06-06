@@ -34,15 +34,15 @@ public class ThumbnailItemService {
             thumbnailItem.setRegisteredAt(i.getRegisteredAt());
             thumbnailItem.setTiId(i.getItemId());
 
-            List<String> itemImagesURLList = Stream.of(
-                    i.getItemImagesUrl()
-                            .split(",",-1))
-                            .collect(Collectors.toList());
-
-            thumbnailItem.setThumbnailImageUrl(itemImagesURLList.get(0));
-            thumbnailItem.setItem(i);
-            thumbnailItem.setCntLike(i.getCntLike());
-            thumbnailItem.setCntShow(i.getCntShow());
+//            List<String> itemImagesURLList = Stream.of(
+//                    i.getItemImagesUrl()
+//                            .split(",",-1))
+//                            .collect(Collectors.toList());
+//
+//            thumbnailItem.setThumbnailImageUrl(itemImagesURLList.get(0));
+//            thumbnailItem.setItem(i);
+//            thumbnailItem.setCntLike(i.getCntLike());
+//            thumbnailItem.setCntShow(i.getCntShow());
 
             thumbnailItemRepository.save(thumbnailItem);
 

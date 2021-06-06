@@ -1,5 +1,6 @@
 package com.pandasaza.base.model.network;
 
+import com.pandasaza.base.model.enumclass.ApiStatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,10 @@ public class Header<T> {
 
     //api 통신 시간
     private LocalDateTime transactionTime; // String으로 정의하여 시간을 어떻게 보여줄 것인지 설정 가능하지만 기본 사용
+
+    private ApiStatusCode apiStatusCode;
+
+    private String message;
 
     //api 응답 코드
     private String resultCode;
@@ -36,9 +41,8 @@ public class Header<T> {
 
     public static <T> Header<T> OK(T data){
         return (Header<T>) Header.builder()
-                .transactionTime(LocalDateTime.now())
-                .resultCode("OK")
-                .description("OK")
+                .apiStatusCode(ApiStatusCode.SUCCESS)
+                .message("registered message")
                 .data(data)
                 .build();
     }

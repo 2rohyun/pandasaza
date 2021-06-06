@@ -38,7 +38,7 @@ public class DibRepositoryTest extends BaseApplicationTests {
 
         dib.ifPresent(d->{
             System.out.println("찜한 아이템 이름 : " + d.getItem().getName());
-            System.out.println("찜한 유저 계정 : " + d.getUser().getAccount());
+            //System.out.println("찜한 유저 계정 : " + d.getUser().getAccount());
         });
     }
 }

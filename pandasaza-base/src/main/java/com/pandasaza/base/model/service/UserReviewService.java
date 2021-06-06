@@ -17,6 +17,69 @@ import java.util.List;
 public class UserReviewService {
 
     public float getAvgScore(User user) {
+        float avg = 0f;
+        int cnt = 0;
+
+        List<Review> reviewList = user.getReviewList();
+        if (reviewList != null) {
+            for (Review review : reviewList) {
+                avg += review.getScore();
+                cnt++;
+            }
+            avg = avg / cnt;
+            return avg;
+        } else {
+            return 0f;
+        }
+    }
+
+    public List<Integer> getScoreHistory(User user) {
+
+        List<Integer> scoreHistory = new ArrayList<>(Collections.emptyList());
+
+        List<Review> reviewList = user.getReviewList();
+        if (reviewList != null){
+            if (reviewList.size()>=3){
+                for(Review review : reviewList.subList(0,2)){
+                    scoreHistory.add(review.getScore());
+                }
+            }else{
+                for(Review review : reviewList){
+                    scoreHistory.add(review.getScore());
+                }
+            }
+
+        }
+        return scoreHistory;
+    }
+
+    public List<String> getReviewHistory(User user) {
+
+        List<String> reviewHistory = new ArrayList<>(Collections.emptyList());
+        List<Review> reviewList = user.getReviewList();
+        if (reviewList != null){
+            if (reviewList.size()>=3){
+                for(Review review : reviewList.subList(0,2)){
+                    reviewHistory.add(review.getTitle());
+                }
+            }else{
+                for(Review review : reviewList){
+                    reviewHistory.add(review.getTitle());
+                }
+            }
+
+        }
+
+        return reviewHistory;
+    }
+
+
+}
+
+
+
+/*
+    public float getAvgScore(User user) {
 
         float avg = 0f;
         int cnt = 0;
@@ -86,4 +149,6 @@ public class UserReviewService {
 
         return reviewHistory;
     }
-}
+
+ */
+

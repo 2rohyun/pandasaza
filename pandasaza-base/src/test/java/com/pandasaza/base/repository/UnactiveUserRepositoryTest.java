@@ -30,13 +30,13 @@ public class UnactiveUserRepositoryTest extends BaseApplicationTests {
         user.forEach(u->{
             if(ChronoUnit.DAYS.between(u.getLastLoginAt(),today) > 100){
                 unactiveUser.setUuId(u.getUserId());
-                unactiveUser.setAccount(u.getAccount());
+                //unactiveUser.setAccount(u.getAccount());
                 unactiveUser.setEmail(u.getEmail());
                 //unactiveUser.setIsCertified(u.getIsCertified());
-                unactiveUser.setNation(u.getNation());
-                unactiveUser.setPassword(u.getPassword());
+                //unactiveUser.setNation(u.getNation());
+                //unactiveUser.setPassword(u.getPassword());
                 unactiveUser.setLastLoginAt(u.getLastLoginAt());
-                unactiveUser.setPhoneNumber(u.getPhoneNumber());
+                //unactiveUser.setPhoneNumber(u.getPhoneNumber());
                 unactiveUser.setRegisteredAt(u.getRegisteredAt());
                 unactiveUser.setStatus(u.getStatus());
                 unactiveUser.setUniversity(u.getUniversity());

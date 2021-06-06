@@ -23,18 +23,17 @@ public class UserRepositoryTest extends BaseApplicationTests {
     public void create(){
         for(int i = 0;i<10;i++){
             User user = new User();
-            user.setAccount("이도팔")
-                    .setPassword("password")
+            user
                     .setLastLoginAt(LocalDateTime.now())
                     .setStatus(UserStatus.REGISTERED)
                     .setRegisteredAt(LocalDateTime.now())
                     .setEmail("anan@gmail.com")
                     .setAuthHistory("-")
                     .setAuthMethods("-")
-                    .setNation("korea")
-                    .setPhoneNumber("010-1111-2222")
-                    .setUniversity("dongguk")
-                    .setProfileIcon("gggg");
+                    //.setNation("korea")
+                    //.setPhoneNumber("010-1111-2222")
+                    .setUniversity("dongguk");
+                    //.setProfileIcon("gggg");
 
             User newUser = userRepository.save(user);
             Assertions.assertNotNull(newUser);
@@ -49,11 +48,8 @@ public class UserRepositoryTest extends BaseApplicationTests {
 
         user.ifPresent(u->{
             System.out.println("-----------------------------유저 기본 정보-----------------------------");
-            System.out.println("계정 : " + u.getAccount());
-            System.out.println("비밀번호 : " + u.getPassword());
-            System.out.println("휴대폰 번호 : " + u.getPhoneNumber());
             System.out.println("이메일 : " + u.getEmail());
-            System.out.println("국적 : " + u.getNation());
+            //System.out.println("국적 : " + u.getNation());
             System.out.println("상태 : " + u.getStatus());
             System.out.println("등록 날짜 : " + u.getRegisteredAt());
             System.out.println("학교 : " + u.getUniversity());
@@ -73,7 +69,7 @@ public class UserRepositoryTest extends BaseApplicationTests {
             u.getOrderDetailList().forEach(order ->{
                 System.out.println("구매 상태 : " + order.getStatus());
                 System.out.println("구매 아이템 이름 : " + order.getItem().getName());
-                System.out.println("구매 아이템 판매자 : " + order.getItem().getUser().getAccount());
+                //System.out.println("구매 아이템 판매자 : " + order.getItem().getUser().getAccount());
             });
 
             System.out.println("-----------------------------유저 찜 정보-----------------------------");

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
@@ -22,7 +24,7 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
 
     @Override
     @PostMapping("")
-    public Header<UserApiResponse> create(@RequestBody Header<UserApiRequest> userApiRequest) {
+    public Header<UserApiResponse> create(@Valid @RequestBody Header<UserApiRequest> userApiRequest) {
         if (userApiRequest == null) {
             log.error("received Request : {}", userApiRequest);
         }
@@ -40,6 +42,7 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
         return userApiLogicService.read(id);
     }
 
+    /**
     @GetMapping("/data/{id}")
     public Header<UserDataApiResponse> read_user_data(@PathVariable Long id) {
         log.info("read id : {}",id);
@@ -51,6 +54,7 @@ public class UserApiController implements CrudInterface<UserApiRequest, UserApiR
         log.info("read id : {}",id);
         return userApiLogicService.readUserProfile(id);
     }
+     **/
 
 
 
